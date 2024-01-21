@@ -5,6 +5,7 @@ namespace gdi_PointAndClick
     public partial class FrmMain : Form
     {
         List<Rectangle> rectangles = new List<Rectangle>();
+        List<Color> rectangleColors = new List<Color>();
         Random random = new Random();
 
         private bool IstQuadratUeberschnitten(Rectangle newRectangle)
@@ -32,11 +33,11 @@ namespace gdi_PointAndClick
             int h = this.ClientSize.Height;
 
             // Zeichenmittel
-            Brush b = new SolidBrush(Color.Lavender);
 
-            foreach (Rectangle rect in rectangles)
+            for (int i = 0; i < rectangles.Count; i++)
             {
-                g.FillRectangle(b, rect);
+                Brush b = new SolidBrush(rectangleColors[i]); 
+                g.FillRectangle(b, rectangles[i]);
             }
 
         }
@@ -52,6 +53,8 @@ namespace gdi_PointAndClick
             if (!IstQuadratUeberschnitten(r))
             {
                 rectangles.Add(r);
+                Color randomColor = Color.FromArgb((int)(0xFF << 24 ^ (random.Next(0xFFFFFF) & 0x7F7F7F)));
+                rectangleColors.Add(randomColor);
                 Refresh();
             }
 
