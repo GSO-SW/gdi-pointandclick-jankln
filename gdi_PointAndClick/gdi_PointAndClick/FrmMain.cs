@@ -1,5 +1,4 @@
-using System.Collections.Generic; // benötigt für Listen
-
+using System.Collections.Generic; 
 namespace gdi_PointAndClick
 {
     public partial class FrmMain : Form
@@ -46,16 +45,33 @@ namespace gdi_PointAndClick
         {
             Point mausposition = e.Location;
 
-            int randomzahl = random.Next(5, 101);
-
-            Rectangle r = new Rectangle(mausposition.X-20, mausposition.Y-20, randomzahl, randomzahl);
-
-            if (!IstQuadratUeberschnitten(r))
+            if (e.Button == MouseButtons.Left) 
             {
-                rectangles.Add(r);
-                Color randomColor = Color.FromArgb((int)(0xFF << 24 ^ (random.Next(0xFFFFFF) & 0x7F7F7F)));
-                rectangleColors.Add(randomColor);
-                Refresh();
+                int randomzahl = random.Next(5, 101);
+                Rectangle r = new Rectangle(mausposition.X - 20, mausposition.Y - 20, randomzahl, randomzahl);
+
+                if (!IstQuadratUeberschnitten(r))
+                {
+                    rectangles.Add(r);
+
+                    Color randomColor = Color.FromArgb((int)(0xFF << 24 ^ (random.Next(0xFFFFFF) & 0x7F7F7F)));
+                    rectangleColors.Add(randomColor);
+
+                    Refresh();
+                }
+            }
+            else if (e.Button == MouseButtons.Right) 
+            {
+                for (int i = rectangles.Count - 1; i >= 0; i--)
+                {
+                    if (rectangles[i].Contains(mausposition))
+                    {
+                        rectangles.RemoveAt(i);
+                        rectangleColors.RemoveAt(i);
+                        Refresh();
+                        break; 
+                    }
+                }
             }
 
 
