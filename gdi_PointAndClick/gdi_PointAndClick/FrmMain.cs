@@ -7,6 +7,17 @@ namespace gdi_PointAndClick
         List<Rectangle> rectangles = new List<Rectangle>();
         Random random = new Random();
 
+        private bool IstQuadratUeberschnitten(Rectangle newRectangle)
+        {
+            foreach (Rectangle rect in rectangles)
+            {
+                if (rect.IntersectsWith(newRectangle))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public FrmMain()
         {
             InitializeComponent();
@@ -23,10 +34,9 @@ namespace gdi_PointAndClick
             // Zeichenmittel
             Brush b = new SolidBrush(Color.Lavender);
 
-
-            for (int i = 0; i < rectangles.Count; i++)
+            foreach (Rectangle rect in rectangles)
             {
-                g.FillRectangle(b, rectangles[i]);
+                g.FillRectangle(b, rect);
             }
 
         }
@@ -39,9 +49,13 @@ namespace gdi_PointAndClick
 
             Rectangle r = new Rectangle(mausposition.X-20, mausposition.Y-20, randomzahl, randomzahl);
 
-            rectangles.Add(r);  
+            if (!IstQuadratUeberschnitten(r))
+            {
+                rectangles.Add(r);
+                Refresh();
+            }
 
-            Refresh();
+
         }
 
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
