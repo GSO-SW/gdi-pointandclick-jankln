@@ -5,6 +5,7 @@ namespace gdi_PointAndClick
     public partial class FrmMain : Form
     {
         List<Rectangle> rectangles = new List<Rectangle>();
+        Random random = new Random();
 
         public FrmMain()
         {
@@ -34,9 +35,11 @@ namespace gdi_PointAndClick
         {
             Point mausposition = e.Location;
 
-            Rectangle r = new Rectangle(mausposition.X-20, mausposition.Y-20, 40, 40);
+            int randomzahl = random.Next(5, 101);
 
-            rectangles.Add(r);  // Kurze Variante: rectangles.Add( new Rectangle(...)  );
+            Rectangle r = new Rectangle(mausposition.X-20, mausposition.Y-20, randomzahl, randomzahl);
+
+            rectangles.Add(r);  
 
             Refresh();
         }
